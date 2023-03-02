@@ -24,7 +24,6 @@ def loss_gradient(x, y, a, b):
 
 
 def gradient_descent(x, y, a, b, epochs):
-    learning_rate = 0.01
     # Perform gradient descent for a fixed number of iterations
     for i in range(epochs):
         # Compute the gradient of the loss function with respect to the parameters
@@ -45,16 +44,14 @@ def gradient_descent(x, y, a, b, epochs):
 
 
 def plot_linear_model():
-    # Plot the data
     plt.scatter(x, y, label='Data')
     plt.plot(x_model, linear_model(x_model, init_a, init_b), 'r', label='initial model')
     plt.plot(x_model, y_model, 'g', label='linear fitted model')
-    plt.legend()
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.xlabel('X')
+    plt.ylabel('Y')
     plt.title('Linear Regression with Gradient Descent')
-
-    # Show the plot
+    plt.grid(True, linestyle='--', linewidth=1, color='lightgray')
+    plt.legend()
     plt.show()
 
 
@@ -63,6 +60,7 @@ def plot_error_function():
     plt.xlabel('iterations')
     plt.ylabel('error')
     plt.title('Error value per iterations')
+    plt.grid(True, linestyle='--', linewidth=1, color='lightgray')
     plt.show()
 
 
@@ -93,10 +91,12 @@ if __name__ == "__main__":
     # Define the data
     x = np.array([-3.0, -2.0, 0.0, 1.0, 3.0, 4.0])
     y = np.array([-1.5, 2.0, 0.7, 5.0, 3.5, 7.5])
+
     # Initialize the parameters and the learning rate
     init_a = 3
     init_b = 3
     epochs = 100
+    learning_rate = 0.01
     error_list = []
     a_list = []
     b_list = []
