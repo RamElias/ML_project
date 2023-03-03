@@ -28,7 +28,7 @@ def plot_linear_model(x, y, y_init, Y_pred):
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.title('Linear Regression with Gradient Descent')
-    plt.grid(True, linestyle='--', linewidth=1, color='lightgray')
+    plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray')
 
     plt.legend()
     plt.show()
@@ -39,7 +39,7 @@ def plot_error_function():
     plt.xlabel('iterations')
     plt.ylabel('error')
     plt.title('Error value per iterations')
-    plt.grid(True, linestyle='--', linewidth=1, color='lightgray')
+    plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray')
     plt.show()
 
 
