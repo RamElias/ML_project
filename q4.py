@@ -1,3 +1,13 @@
+"""
+================================
+PROJECT - Question 4 - Machine learning
+================================
+
+Name: Eliezer Seror  Id: 312564776
+Name: Ram Elias      Id: 205445794
+
+"""
+
 from scipy.io import wavfile
 from sklearn.decomposition import FastICA
 import numpy as np

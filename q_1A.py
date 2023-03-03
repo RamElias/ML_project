@@ -1,6 +1,6 @@
 """
 ================================
-PROJECT - ex1A - Machine learning
+PROJECT - Question 1A - Machine learning
 ================================
 
 Name: Eliezer Seror  Id: 312564776
