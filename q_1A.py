@@ -1,3 +1,12 @@
+"""
+================================
+PROJECT - ex1A - Machine learning
+================================
+
+Name: Eliezer Seror  Id: 312564776
+Name: Ram Elias      Id: 205445794
+
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d

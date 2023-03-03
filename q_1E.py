@@ -1,3 +1,13 @@
+"""
+================================
+PROJECT - ex1E - Machine learning
+================================
+
+Name: Eliezer Seror  Id: 312564776
+Name: Ram Elias      Id: 205445794
+
+"""
+
 import numpy as np
 from sympy import symbols, lambdify, diff, exp, sin, cos
 import matplotlib.pyplot as plt
