@@ -109,7 +109,7 @@ if __name__ == "__main__":
     init_a = 1
     init_b = 1
     epochs = 1000
-    learning_rate = 0.0001
+    learning_rate = 0.001
     error_list = []
     a_list = []
     b_list = []

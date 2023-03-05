@@ -11,6 +11,8 @@ Name: Ram Elias      Id: 205445794
 import numpy as np
 from sympy import symbols, lambdify, diff, exp, sin, cos
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import time
 
 
 def gradient_descent(x, y, a, b, c, epochs, learning_rate):
@@ -82,6 +84,62 @@ def plot_error_surface(grid_size=30):
     ax.legend()
     plt.show()
 
+def find_using_gradient_descent():
+    print('------Gradient descent-------')
+    start = time.time()
+    # Perform gradient descent and get the optimal values for a, b, and c
+    a, b, c = gradient_descent(x_data, y_data, init_a, init_b, init_c, epochs, learning_rate)
+    end = time.time()
+    grad_time = end - start
+    print(f"Total time taken with Gradient descent: {grad_time} seconds")
+
+    # Calculate the initial and fitted models
+    f_init = F(init_a, init_b, init_c, x_data, y_data)
+    f_fitted = F(a, b, c, x_data, y_data)
+
+    # Plot the initial and fitted models along with the data
+    plot_model(x_data, y_data, f_init, f_fitted)
+
+    # Plot the error value over the iterations
+    plot_error_function()
+
+    # Plot the error surface and parameter values
+    # plot_error_surface()
+
+def model(x, a, b, c):
+    return a * np.sin(np.cos(b * x) * (c * x))
+
+
+def find_using_curve_fit():
+    print('------Curve fit-------')
+    p0 = [1, 1, 1]  # initial guess
+    start = time.time()
+    popt, _ = curve_fit(model, x_data, y_data, p0)
+    end = time.time()
+    curve_time = end - start
+    # Get the optimal values of a and b
+    a_opt = popt[0]
+    b_opt = popt[1]
+    c_opt = popt[2]
+
+    # Print the optimal values of a and b
+    print(f'The final a,b,c are: {a_opt}, {b_opt}, {c_opt}')
+    print(f"Total time taken with curve_fit : {curve_time} seconds")
+
+    f_init = F(p0[0], p0[1], p0[2], x_data, y_data)
+    f_fitted = F(a_opt, b_opt, c_opt, x_data, y_data)
+
+    # Plot the original data, the initial guess, and the fitted model
+    plt.scatter(x_data, y_data, label='Data')
+    plt.plot(x_data, f_init, 'r', label='Initial guess')
+    plt.plot(x_data, f_fitted, 'g', label='Fitted model')
+    plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Fitted Model using curve_fit')
+    plt.legend()
+    plt.show()
+
 
 if __name__ == "__main__":
     # Define symbolic variables
@@ -104,7 +162,6 @@ if __name__ == "__main__":
     Grad_c = lambdify([a, b, c, x, y], de_c, 'numpy')
 
     # Define the data
-    from sklearn.preprocessing import MinMaxScaler
 
     x_data = np.array(
         [-5., -4.5, -4., -3.5, -3., -2.5, -2., -1.5, -1., -0.5, 0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5.])
@@ -123,25 +180,12 @@ if __name__ == "__main__":
     init_a = 1
     init_b = 1
     init_c = 1
-    epochs = 100
+    epochs = 1000
     learning_rate = 0.0001
     error_list = []
     a_list = []
     b_list = []
     c_list = []
 
-    # Perform gradient descent and get the optimal values for a, b, and c
-    a, b, c = gradient_descent(x_data, y_data, init_a, init_b, init_c, epochs, learning_rate)
-
-    # Calculate the initial and fitted models
-    f_init = F(init_a, init_b, init_c, x_data, y_data)
-    f_fitted = F(a, b, c, x_data, y_data)
-
-    # Plot the initial and fitted models along with the data
-    plot_model(x_data, y_data, f_init, f_fitted)
-
-    # Plot the error value over the iterations
-    plot_error_function()
-
-    # Plot the error surface and parameter values
-    #plot_error_surface()
+    find_using_gradient_descent()
+    find_using_curve_fit()

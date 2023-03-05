@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # Fit the model to the data using curve_fit
     p0 = [1, 1]  # initial guess
-    popt, pcov = curve_fit(model, x_data, y_data, p0=p0)
+    popt, _ = curve_fit(model, x_data, y_data, p0)
 
     # Get the optimal values of a and b
     a_opt = popt[0]
@@ -50,8 +50,8 @@ if __name__ == "__main__":
 
     # Plot the original data, the initial guess, and the fitted model
     plt.scatter(x_data, y_data, label='Data')
-    plt.plot(x_data, f_init, 'g', label='Initial guess')
-    plt.plot(x_data, f_fitted, 'r', label='Fitted model')
+    plt.plot(x_data, f_init, 'r', label='Initial guess')
+    plt.plot(x_data, f_fitted, 'g', label='Fitted model')
     plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray')
     plt.xlabel('X')
     plt.ylabel('Y')
