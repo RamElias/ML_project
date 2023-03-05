@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 
+# function that define our model
 def model(x, a, b):
     return a * np.sin(b * x)
 
@@ -26,7 +27,8 @@ if __name__ == "__main__":
     F = lambdify([a, b, x], f, 'numpy')
 
     # Define the data
-    x_data = np.array([-5., -4.5, -4., -3.5, -3., -2.5, -2., -1.5, -1., -0.5, 0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5.])
+    x_data = np.array(
+        [-5., -4.5, -4., -3.5, -3., -2.5, -2., -1.5, -1., -0.5, 0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5.])
     y_data = np.array([-2.16498306, -1.53726731, 1.67075645, 2.47647932, 4.49579917,
                        1.14600963, 0.15938811, -3.09848048, -3.67902427, -1.84892687,
                        -0.11705947, 3.14778203, 4.26365256, 2.49120585, 0.55300516,
@@ -34,17 +36,16 @@ if __name__ == "__main__":
                        2.15371399])
 
     # Fit the model to the data using curve_fit
-    p0 = [1, 1]  # initial guess
+    p0 = [1, 1]
     popt, _ = curve_fit(model, x_data, y_data, p0)
 
-    # Get the optimal values of a and b
+    # optimal values of a and b
     a_opt = popt[0]
     b_opt = popt[1]
 
-    # Print the optimal values of a and b
     print(f'The optimal values of a and b are: {a_opt}, {b_opt}')
 
-    # Evaluate the fitted model and the initial guess
+    # Evaluate the fitted model and the initial parameters
     f_init = F(p0[0], p0[1], x_data)
     f_fitted = F(a_opt, b_opt, x_data)
 

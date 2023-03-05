@@ -15,8 +15,8 @@ from scipy.optimize import curve_fit
 import time
 
 
+# Perform gradient descent for a fixed number of iterations
 def gradient_descent(x, y, a, b, c, epochs, learning_rate):
-    # Perform gradient descent for a fixed number of iterations
     for i in range(epochs):
         error_rate = sum(E(a, b, c, x, y))
 
@@ -35,6 +35,7 @@ def gradient_descent(x, y, a, b, c, epochs, learning_rate):
     return a, b, c
 
 
+# plot the model, the initial and fitted functions
 def plot_model(x, y, y_init, Y_pred):
     plt.scatter(x, y, label=' Data')
     plt.plot(x, y_init, 'r', label='initial model')
@@ -48,6 +49,7 @@ def plot_model(x, y, y_init, Y_pred):
     plt.show()
 
 
+# plot the error function per iteration
 def plot_error_function():
     plt.plot(range(epochs), error_list, 'b')
     plt.xlabel('iterations')
@@ -57,33 +59,40 @@ def plot_error_function():
     plt.show()
 
 
-def plot_error_surface(grid_size=30):
-    a_grid = np.linspace(min(a_list), max(a_list), grid_size)
-    b_grid = np.linspace(min(b_list), max(b_list), grid_size)
-    c_grid = np.linspace(min(c_list), max(c_list), grid_size)
+#
+# def plot_error_surface():
+#     size = 100
+#     A, B, C = np.meshgrid(np.linspace(min(a_list), max(a_list), size),
+#                            np.linspace(min(b_list), max(b_list), size),
+#                            np.linspace(min(c_list), max(c_list), size))
+#
+#     Z = np.zeros((size, size))
+#
+#     for i in range(size):
+#         for j in range(size):
+#             for k in range(size):
+#                 a = A[i, j, k]
+#                 b = B[i, j, k]
+#                 c = C[i, j, k]
+#                 z = sum(E(a, b, c, x_data, y_data))
+#                 Z[i, j] = z
+#
+#     fig = plt.figure()
+#     ax = fig.add_subplot(111, projection='3d')
+#     ax.plot_surface(A, B, C, cmap='viridis', alpha=0.5, facecolors=plt.cm.viridis(Z))
+#
+#     # Plot the parameters found during all iterations
+#     ax.scatter(a_list, b_list, c_list, s=50, c='b', label='Parameter Values')
+#     ax.scatter(a_list[-1], b_list[-1], c_list[-1], s=50, c='r', label='Final Values')
+#     ax.set_xlabel('a')
+#     ax.set_ylabel('b')
+#     ax.set_zlabel('c')
+#     ax.set_title('Error Surface and Parameter Values')
+#     ax.legend()
+#     plt.show()
+#
 
-    A, B, C = np.meshgrid(a_grid, b_grid, c_grid)
-    Z = np.zeros((grid_size, grid_size, grid_size))
-
-    for i in range(grid_size):
-        for j in range(grid_size):
-            for k in range(grid_size):
-                Z[i, j, k] = sum(E(A[i, j, k], B[i, j, k], C[i, j, k], x, y))
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.plot_surface(A, B, Z[:, :, int(grid_size / 2)], cmap='viridis', alpha=0.5)
-
-    # Plot the parameters found during all iterations
-    ax.plot(a_list, b_list, error_list, 'b', label='Parameter Values')
-    ax.scatter(a_list[-1], b_list[-1], error_list[-1], s=50, c='r', label='Final Values')
-    ax.set_xlabel('a')
-    ax.set_ylabel('b')
-    ax.set_zlabel('error')
-    ax.set_title('Error Surface and Parameter Values')
-    ax.legend()
-    plt.show()
-
+# section for finding the parameters using gradient descent
 def find_using_gradient_descent():
     print('------Gradient descent-------')
     start = time.time()
@@ -104,12 +113,15 @@ def find_using_gradient_descent():
     plot_error_function()
 
     # Plot the error surface and parameter values
-    # plot_error_surface()
+    plot_error_surface()
 
+
+# func that return our model
 def model(x, a, b, c):
     return a * np.sin(np.cos(b * x) * (c * x))
 
 
+# section for finding the parameters using curve fir function
 def find_using_curve_fit():
     print('------Curve fit-------')
     p0 = [1, 1, 1]  # initial guess
@@ -172,11 +184,11 @@ if __name__ == "__main__":
                        -2.105836, -2.68898773, -2.39982575, -0.50261972, 1.40235643,
                        2.15371399])
 
-    # Generate noisy data
+    # Generate the data
     noise = np.random.normal(loc=0, scale=0.5, size=len(y_true))
     y_data = y_true + noise
 
-    # Initialize the parameters and the learning rate
+    # Initialize the parameters, epochs, learning rate
     init_a = 1
     init_b = 1
     init_c = 1

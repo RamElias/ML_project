@@ -32,8 +32,8 @@ def loss_gradient(x, y, a, b):
     return grad_a, grad_b
 
 
+# Perform gradient descent for a fixed number of iterations
 def gradient_descent(x, y, a, b, epochs):
-    # Perform gradient descent for a fixed number of iterations
     for i in range(epochs):
         # Compute the gradient of the loss function with respect to the parameters
         grad_a, grad_b = loss_gradient(x, y, a, b)
@@ -42,7 +42,6 @@ def gradient_descent(x, y, a, b, epochs):
         a -= learning_rate * grad_a
         b -= learning_rate * grad_b
 
-        # Compute the error function
         error_list.append(error_function(x, y, a, b))
         a_list.append(a)
         b_list.append(b)
@@ -52,8 +51,9 @@ def gradient_descent(x, y, a, b, epochs):
     return a, b
 
 
+# plot the linear model, the initial and fitted functions
 def plot_linear_model():
-    plt.scatter(x, y, label='Data')
+    plt.scatter(x_data, y_data, label='Data')
     plt.plot(x_model, linear_model(x_model, init_a, init_b), 'r', label='initial model')
     plt.plot(x_model, y_model, 'g', label='linear fitted model')
     plt.xlabel('X')
@@ -64,6 +64,7 @@ def plot_linear_model():
     plt.show()
 
 
+# plot the error function per iteration
 def plot_error_function():
     plt.plot(range(epochs), error_list, 'b')
     plt.xlabel('iterations')
@@ -73,13 +74,17 @@ def plot_error_function():
     plt.show()
 
 
+# plot the error surface and the parameters found with the gradient descent
 def plot_error_surface():
-    # Create a 3D plot of the error surface over the parameters
-    A, B = np.meshgrid(np.linspace(-5, 5, 100), np.linspace(-5, 5, 100))
+    size = 100
+
+    A, B = np.meshgrid(np.linspace(min(a_list), max(a_list), size),
+                       (np.linspace(min(b_list), max(b_list), size)))
+
     Z = np.zeros_like(A)
     for i in range(A.shape[0]):
         for j in range(A.shape[1]):
-            Z[i, j] = error_function(x, y, A[i, j], B[i, j])
+            Z[i, j] = error_function(x_data, y_data, A[i, j], B[i, j])
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -98,10 +103,10 @@ def plot_error_surface():
 
 if __name__ == "__main__":
     # Define the data
-    x = np.array([-3.0, -2.0, 0.0, 1.0, 3.0, 4.0])
-    y = np.array([-1.5, 2.0, 0.7, 5.0, 3.5, 7.5])
+    x_data = np.array([-3.0, -2.0, 0.0, 1.0, 3.0, 4.0])
+    y_data = np.array([-1.5, 2.0, 0.7, 5.0, 3.5, 7.5])
 
-    # Initialize the parameters and the learning rate
+    # Initialize the parameters, epochs, learning rate
     init_a = 3
     init_b = 3
     epochs = 100
@@ -110,10 +115,9 @@ if __name__ == "__main__":
     a_list = []
     b_list = []
 
-    a, b = gradient_descent(x, y, init_a, init_b, epochs)
+    a, b = gradient_descent(x_data, y_data, init_a, init_b, epochs)
 
-    # Plot the linear model
-    x_model = np.linspace(min(x), max(x), 100)
+    x_model = np.linspace(min(x_data), max(x_data), 100)
     y_model = linear_model(x_model, a, b)
 
     plot_linear_model()

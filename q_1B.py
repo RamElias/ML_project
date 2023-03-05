@@ -12,8 +12,8 @@ from sympy import symbols, lambdify, diff
 import matplotlib.pyplot as plt
 
 
+# Perform gradient descent for a fixed number of iterations
 def gradient_descent(x, y, a, b, epochs):
-    # Perform gradient descent for a fixed number of iterations
     for i in range(epochs):
         error_rate = sum(E(a, b, x, y))
 
@@ -30,6 +30,7 @@ def gradient_descent(x, y, a, b, epochs):
     return a, b
 
 
+# plot the linear model, the initial and fitted functions
 def plot_linear_model(x, y, y_init, Y_pred):
     plt.scatter(x, y, label=' Data')
     plt.plot(x, y_init, 'r', label='initial model')
@@ -43,6 +44,7 @@ def plot_linear_model(x, y, y_init, Y_pred):
     plt.show()
 
 
+# plot the error function per iteration
 def plot_error_function():
     plt.plot(range(epochs), error_list, 'b')
     plt.xlabel('iterations')
@@ -52,16 +54,17 @@ def plot_error_function():
     plt.show()
 
 
-def plot_error_surface(grid_size=30):
-    a_grid = np.linspace(min(a_list), max(a_list), grid_size)
-    b_grid = np.linspace(min(b_list), max(b_list), grid_size)
+# plot the error surface and the parameters found with the gradient descent
+def plot_error_surface():
+    size = 100
+    A, B = np.meshgrid(np.linspace(min(a_list), max(a_list), size),
+                       (np.linspace(min(b_list), max(b_list), size)))
 
-    A, B = np.meshgrid(a_grid, b_grid)
-    Z = np.zeros((grid_size, grid_size))
+    Z = np.zeros((size, size))
 
-    for i in range(grid_size):
-        for j in range(grid_size):
-            Z[i, j] = sum(E(A[i, j], B[i, j], x, y))
+    for i in range(size):
+        for j in range(size):
+            Z[i, j] = sum(E(A[i, j], B[i, j], x_data, y_data))
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -100,7 +103,7 @@ if __name__ == "__main__":
     x_data = np.array([-3.0, -2.0, 0.0, 1.0, 3.0, 4.0])
     y_data = np.array([-1.5, 2.0, 0.7, 5.0, 3.5, 7.5])
 
-    # Initialize the parameters and the learning rate
+    # Initialize the parameters, epochs, learning rate
     init_a = 3
     init_b = 3
     epochs = 100
