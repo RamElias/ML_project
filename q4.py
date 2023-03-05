@@ -128,7 +128,7 @@ def preprocess_data(sources):
     return sources
 
 
-# biuld and define the classifier with all the feacher nedded
+# build and define the classifier with all the feacher needed
 # set an optimizer (Adam)
 # compile the model
 def build_model(input_shape, num_classes):
@@ -150,7 +150,7 @@ def build_model(input_shape, num_classes):
     return model
 
 
-# trian the model
+# train the model
 def train_model(model, train_data, train_labels, val_split=0.2, epochs=500, verbose=2):
     history = model.fit(train_data, train_labels, validation_split=val_split, epochs=epochs, verbose=verbose)
     return history
@@ -185,7 +185,7 @@ def source_recognition(source_files):
 
 
 if __name__ == "__main__":
-    # seperate mix audio to there origin
+    # separate mix audio to there origin
     ComputeICA()
 
     # source_recognition for original sources
